@@ -1,5 +1,5 @@
 import axios from "axios";
-export const BaseUrl = "https://collarhire-dev.blacksea-2f0849b1.westus.azurecontainerapps.io/";
+export const BaseUrl = process.env.REACT_APP_BASE_URL;
 export const apikey = process.env.REACT_APP_APIKEY;
 
 //Auth
@@ -2078,5 +2078,10 @@ export const submitKYCData = async (token,documentNumber, selectedFile, selected
 
   }
 };
+
+
+
+
+
 
 

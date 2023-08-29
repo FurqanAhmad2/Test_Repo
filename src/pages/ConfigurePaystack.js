@@ -1,5 +1,5 @@
-// ConfigurePaystack.js
+// // ConfigurePaystack.js
 
-const paystackKey = 'pk_test_667c8ba43b45606643137018b23e26548e0040a9';
+// const paystackKey = 'sk_test_64438f62e730e1dca4d92cf02c968a3417ba897c';
 
-export default paystackKey;
+// export default paystackKey;

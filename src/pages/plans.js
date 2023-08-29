@@ -16,13 +16,17 @@ import { PaystackButton } from 'react-paystack'
 ;
 import PaystackPop from "@paystack/inline-js"
 
-import paystackKey from './ConfigurePaystack'; // Make sure to adjust the path as needed
+// import paystackKey from './ConfigurePaystack'; // Make sure to adjust the path as needed
 
 
 const Plans = () => {
   const navigate = useNavigate();
   const { token, subscriptionDetails } = useContext(AuthContext);
   const [toggle, setToggle] = useState(false);
+  const [response, setResponse] = useState(null);
+
+
+
 
   const {
     isError: subscriptionError,
@@ -60,6 +64,31 @@ const Plans = () => {
     }
   };
 
+
+  const initializePayment = async () => {
+    const params = {
+      email: profile?.email,
+      amount: '20000',
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: process.env.REACT_APP_PAYSTACK_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    };
+
+    try {
+      const response = await fetch('https://api.paystack.co/transaction/initialize', requestOptions);
+      const data = await response.json();
+      setResponse(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   
   
 
@@ -89,23 +118,9 @@ const Plans = () => {
       const metadata = { planId: id };
       console.log("ok")
     
-      
+      initializePayment();
 
-    return (
-      <PaystackButton
-        text="Select & Pay"
-        className="priceBtn"
-        callback={(response) => handlePaystackResponse(response)}
-        close={() => console.log('Payment closed.')}
-        disabled={false}
-        embed={false}
-        reference={generateReference()}
-        email={profile?.email}
-        amount={amountInKobo}
-        metadata={metadata}
-        paystackkey={paystackKey}
-      />
-    );
+
 
 
       // postSubscription({ subscription: id }, token, toast, navigate);
